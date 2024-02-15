@@ -5,6 +5,7 @@ body {
 .li-container {
   display: flex;
   gap: 10px;
+  padding: 10px;
 }
 .li-container input[type="checkbox"] {
   accent-color: #00b4d8;
@@ -13,4 +14,37 @@ body {
 }
 .li-container li {
   list-style: none;
+}
+.todos-container {
+  background-color: #fff;
+  color: black;
+}
+
+.li-container.low {
+  background-color: #007552c0;
+  color: #fff;
+}
+.li-container.medium {
+  background-color: #c2cb04d6;
+  color: #000;
+}
+.li-container.high {
+  background-color: #75002dc0;
+  color: #fff;
+}
+
+#priority.high {
+  margin-right: 5px;
+  background-color: red;
+}
+
+#priority.medium {
+  background-color: yellow;
+  margin-right: 5px;
+}
+
+#priority.low {
+  content: "●";
+  background-color: rgba(0, 174, 255, 0.764);
+  margin-right: 5px;
 }

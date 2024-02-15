@@ -18,28 +18,43 @@
     <form action="" id="form">
       <div class="input-container">
         <label for="task-input">Task <span class="text-danger">*</span></label>
-        <input type="text" id="task-input" placeholder="I need to..." />
+        <input
+          type="text"
+          id="task-input"
+          placeholder="I need to..."
+          required
+        />
       </div>
       <div>
         <label for="date-input">Due-Date </label>
         <input type="date" id="date-input" />
       </div>
+      <div>
+        <label for="priority">Select Priority</label>
+        <select name="priorityDropDown" id="priority" class="low">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
       <button type="submit" id="submit-btn">Add Task</button>
     </form>
-    <div>
+    <div class="todos-container">
       <h2>My To-Do List</h2>
       <ul id="todo-ul">
-        <div class="li-container">
+        <div class="li-container highPriority">
           <input type="checkbox" />
           <li>Hello</li>
+          <p class="date">Due Date: 02-15-2024</p>
         </div>
       </ul>
       <hr />
       <h2>Completed</h2>
       <ul id="completed-ul">
-        <div class="li-container">
+        <div class="li-container highPriority">
           <input type="checkbox" />
           <li>Hello</li>
+          <p class="date">Due Date: 02-15-2024</p>
         </div>
       </ul>
     </div>
