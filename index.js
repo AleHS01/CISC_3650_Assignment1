@@ -1,6 +1,12 @@
 const form = document.getElementById("form");
 const todo_ul = document.getElementById("todo-ul");
 const completed_ul = document.getElementById("completed-ul");
+const dropdown = document.getElementById("priority");
+dropdown.clas;
+dropdown.addEventListener("change", (event) => {
+  dropdown.className =
+    event.target.options[event.target.options.selectedIndex].value;
+});
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -24,7 +30,7 @@ form.addEventListener("submit", (event) => {
   }
 
   const div = document.createElement("div");
-  div.classList.add(`li-container`, priority);
+  div.classList.add(`li-container`, priority ? priority : "neutral");
   div.addEventListener("mouseenter", addDeleteBtn);
 
   div.addEventListener("mouseleave", removeDeleteBtn);
@@ -52,7 +58,7 @@ form.addEventListener("submit", (event) => {
 
   console.log(event);
 });
-debugger;
+
 function checkItem(event) {
   const parentDiv = event.target.parentElement;
   const li = parentDiv.children[1];
@@ -61,10 +67,14 @@ function checkItem(event) {
   if (event.target.checked) {
     li.style.textDecoration = "line-through";
     dateP.style.textDecoration = "line-through";
+    parentDiv.style.color = "#c8c8c8";
+    parentDiv.classList.add("completed");
     completed_ul.append(parentDiv);
   } else {
+    parentDiv.style.color = "";
     todo_ul.append(parentDiv);
     li.style.textDecoration = "none";
+    parentDiv.classList.remove("completed");
     dateP.style.textDecoration = "none";
   }
 }
