@@ -18,7 +18,7 @@
     <div class="container">
       <form action="" id="form">
         <div class="input-container">
-          <label for="task-input"
+          <label for="task-input" class="text-secondary"
             >Task <span class="text-danger">*</span></label
           >
           <input
@@ -29,11 +29,16 @@
           />
         </div>
         <div>
-          <label for="date-input">Due-Date </label>
+          <label for="date-input" class="text-secondary"
+            >Due-Date <span class="optional">(optional)</span></label
+          >
           <input type="date" id="date-input" />
         </div>
         <div>
-          <select name="priorityDropDown" id="priority" class="">
+          <label for="priority" class="text-secondary"
+            >Choose Priority <span class="optional">(optional)</span></label
+          >
+          <select name="priorityDropDown" id="priority">
             <option value="">Select Priority</option>
             <option value="bg-info">Low</option>
             <option value="bg-warning">Medium</option>

@@ -65,12 +65,16 @@ function checkItem(event) {
   const dateP = parentDiv.children[2];
 
   if (event.target.checked) {
+    const audio = new Audio("./assets/tada-fanfare-a-6313.mp3");
+    audio.play();
     li.style.textDecoration = "line-through";
     dateP.style.textDecoration = "line-through";
     parentDiv.style.color = "#c8c8c8";
     parentDiv.classList.add("completed");
     completed_ul.append(parentDiv);
   } else {
+    const audio = new Audio("./assets/trumpet-e4-14829.mp3");
+    audio.play();
     parentDiv.style.color = "";
     todo_ul.append(parentDiv);
     li.style.textDecoration = "none";

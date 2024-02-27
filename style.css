@@ -63,19 +63,54 @@ body {
 .li-container.neutral {
   background-color: bisque;
 }
-
+#priority {
+  background-color: bisque;
+}
 #priority.high {
-  margin-right: 5px;
   background-color: red;
 }
 
 #priority.medium {
   background-color: yellow;
-  margin-right: 5px;
 }
 
 #priority.low {
-  content: "●";
   background-color: rgba(0, 174, 255, 0.764);
-  margin-right: 5px;
+}
+
+form {
+  width: 60%;
+  margin: 50px auto;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+form input,
+form select {
+  height: 40px;
+  width: 180px;
+  text-align: center;
+}
+form label {
+  position: absolute;
+  top: -25px;
+}
+.optional {
+  font-size: 10px;
+}
+
+#submit-btn {
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  border: solid white;
+  background-color: transparent;
+  color: white;
+  transition: all 0.5s ease-in-out;
+}
+
+#submit-btn:hover {
+  border-color: #00b38c;
+  background-color: white;
+  color: #004c3c;
 }
