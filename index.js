@@ -1,8 +1,12 @@
 const form = document.getElementById("form");
-const todo_ul = document.getElementById("todo-ul");
-const completed_ul = document.getElementById("completed-ul");
+let todo_ul = document.getElementById("todo-ul");
+let completed_ul = document.getElementById("completed-ul");
 const dropdown = document.getElementById("priority");
-dropdown.clas;
+let savedTodo = [];
+let savedCompleted = [];
+
+document.addEventListener("DOMContentLoaded", () => {});
+
 dropdown.addEventListener("change", (event) => {
   dropdown.className =
     event.target.options[event.target.options.selectedIndex].value;
@@ -29,8 +33,19 @@ form.addEventListener("submit", (event) => {
     formattedDateString = `${formattedMonth}-${formattedDay}-${formattedYear}`;
   }
 
+  const data = {
+    task,
+    priority,
+    formattedDateString,
+  };
+  const div = createDiv(data);
+  todo_ul.appendChild(div);
+  event.target.reset();
+});
+
+function createDiv(data) {
   const div = document.createElement("div");
-  div.classList.add(`li-container`, priority ? priority : "neutral");
+  div.classList.add(`li-container`, data.priority ? data.priority : "neutral");
   div.addEventListener("mouseenter", addDeleteBtn);
 
   div.addEventListener("mouseleave", removeDeleteBtn);
@@ -40,24 +55,20 @@ form.addEventListener("submit", (event) => {
   checkbox.addEventListener("change", checkItem);
 
   const li = document.createElement("li");
-  li.textContent = task;
+  li.textContent = data.task;
 
   div.appendChild(checkbox);
   div.appendChild(li);
 
-  if (formattedDateString) {
-    console.log(formattedDateString);
+  if (data.formattedDateString) {
     const dateP = document.createElement("p");
     dateP.classList.add("date");
-    dateP.textContent = `Due Date: ${formattedDateString}`;
+    dateP.textContent = `Due Date: ${data.formattedDateString}`;
     dateP.style.margin = 0;
     div.appendChild(dateP);
   }
-
-  todo_ul.appendChild(div);
-
-  console.log(event);
-});
+  return div;
+}
 
 function checkItem(event) {
   const parentDiv = event.target.parentElement;
@@ -99,6 +110,8 @@ function removeDeleteBtn(event) {
 }
 
 function deleteTask(event) {
+  const audio = new Audio("./assets/crumple-03-40747.mp3");
+  audio.play();
   const task = event.target.parentElement;
   task.remove();
 }
