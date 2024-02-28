@@ -60,13 +60,14 @@ function createDiv(data) {
   div.appendChild(checkbox);
   div.appendChild(li);
 
+  const dateP = document.createElement("p");
+  dateP.classList.add("date");
   if (data.formattedDateString) {
-    const dateP = document.createElement("p");
-    dateP.classList.add("date");
     dateP.textContent = `Due Date: ${data.formattedDateString}`;
     dateP.style.margin = 0;
-    div.appendChild(dateP);
   }
+  div.appendChild(dateP);
+
   return div;
 }
 
@@ -95,18 +96,17 @@ function checkItem(event) {
 }
 
 function addDeleteBtn(event) {
-  const span = document.createElement("span");
-  span.style.cursor = "pointer";
-  span.classList.add("text-danger");
-  span.textContent = "x";
+  const i = document.createElement("i");
+  i.style.cursor = "pointer";
+  i.classList.add("bi", "bi-trash3-fill", "delete-btn");
 
-  span.addEventListener("click", deleteTask);
+  i.addEventListener("click", deleteTask);
 
-  event.target.appendChild(span);
+  event.target.appendChild(i);
 }
 
 function removeDeleteBtn(event) {
-  event.target.removeChild(event.target.querySelector("span"));
+  event.target.removeChild(event.target.querySelector("i.delete-btn"));
 }
 
 function deleteTask(event) {
