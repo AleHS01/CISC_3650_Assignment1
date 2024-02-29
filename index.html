@@ -53,12 +53,48 @@
       </form>
       <div class="todos-container">
         <h2>Uncompleted Task</h2>
-        <ul id="todo-ul"></ul>
+        <ul id="todo-ul">
+          <!-- <div>
+            <div class="li-container neutral">
+              <input type="checkbox" name="" id="" />
+              <li></li>
+            </div>
+            <div class="li-container neutral subtask-container"></div>
+          </div> -->
+        </ul>
 
         <hr />
         <h2>Completed Task</h2>
         <ul id="completed-ul"></ul>
       </div>
+    </div>
+    <div id="modal-container">
+      <form action="" id="modal-form">
+        <h3>Add a Subtask</h3>
+
+        <div class="input-container">
+          <label for="task-input" class="text-secondary">Task</label>
+          <input type="text" id="task-input" placeholder="Subtask 1..." />
+        </div>
+        <div>
+          <label for="date-input" class="text-secondary"
+            >Due-Date <span class="optional">(optional)</span></label
+          >
+          <input type="date" id="date-input" />
+        </div>
+        <div>
+          <label for="priority" class="text-secondary"
+            >Choose Priority <span class="optional">(optional)</span></label
+          >
+          <select name="priorityDropDown" id="">
+            <option value="">Select Priority</option>
+            <option value="bg-info">Low</option>
+            <option value="bg-warning">Medium</option>
+            <option value="bg-danger">High</option>
+          </select>
+        </div>
+        <button type="submit" id="submit-subtask-btn">Add Subtask</button>
+      </form>
     </div>
     <script src="./index.js"></script>
     <script

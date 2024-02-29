@@ -15,40 +15,42 @@ dropdown.addEventListener("change", (event) => {
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
+  const data = getFormData(event);
+
+  const mainDiv = document.createElement("div");
+
+  const div = createDiv(data);
+  mainDiv.appendChild(div);
+  todo_ul.appendChild(mainDiv);
+  event.target.reset();
+});
+
+function getFormData(event) {
   const task = event.target[0].value;
   const [year, month, day] = event.target[1].value.split("-");
   const priority = event.target[2].value;
-  // const formattedDateString = `${formattedMonth}-${formattedDay}-${formattedYear}`;
+
   let formattedDateString = "";
 
   if (year && month && day) {
-    const formattedDate = new Date(year, month - 1, day);
-
-    const formattedMonth = String(formattedDate.getMonth() + 1).padStart(
-      2,
-      "0"
-    );
-    const formattedDay = String(formattedDate.getDate()).padStart(2, "0");
-    const formattedYear = formattedDate.getFullYear();
-    formattedDateString = `${formattedMonth}-${formattedDay}-${formattedYear}`;
+    formattedDateString = getFormattedDay(year, month, day);
   }
 
-  const data = {
-    task,
-    priority,
-    formattedDateString,
-  };
-  const div = createDiv(data);
-  todo_ul.appendChild(div);
-  event.target.reset();
-});
+  return { task, priority, formattedDateString };
+}
 
 function createDiv(data) {
   const div = document.createElement("div");
   div.classList.add(`li-container`, data.priority ? data.priority : "neutral");
-  div.addEventListener("mouseenter", addDeleteBtn);
 
-  div.addEventListener("mouseleave", removeDeleteBtn);
+  div.addEventListener("mouseenter", (event) => {
+    addSubTaskBtn(event);
+    addDeleteBtn(event);
+  });
+  div.addEventListener("mouseleave", (event) => {
+    removeSubTaskBtn(event);
+    removeDeleteBtn(event);
+  });
 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
@@ -97,7 +99,6 @@ function checkItem(event) {
 
 function addDeleteBtn(event) {
   const i = document.createElement("i");
-  i.style.cursor = "pointer";
   i.classList.add("bi", "bi-trash3-fill", "delete-btn");
 
   i.addEventListener("click", deleteTask);
@@ -114,4 +115,64 @@ function deleteTask(event) {
   audio.play();
   const task = event.target.parentElement;
   task.remove();
+}
+
+function addSubTaskBtn(event) {
+  const i = document.createElement("i");
+  i.sty;
+  i.classList.add("bi", "bi-list-task", "subtask-btn");
+  i.addEventListener("click", addSubTask);
+  event.target.appendChild(i);
+}
+
+function removeSubTaskBtn(event) {
+  event.target.removeChild(event.target.querySelector("i.subtask-btn"));
+}
+
+function getFormattedDay(year, month, day) {
+  const formattedDate = new Date(year, month - 1, day);
+
+  const formattedMonth = String(formattedDate.getMonth() + 1).padStart(2, "0");
+  const formattedDay = String(formattedDate.getDate()).padStart(2, "0");
+  const formattedYear = formattedDate.getFullYear();
+
+  return `${formattedMonth}-${formattedDay}-${formattedYear}`;
+}
+
+/* Modal Functionality & Subtask */
+
+const modalContainer = document.getElementById("modal-container");
+const modalForm = document.getElementById("modal-form");
+
+window.onclick = function (event) {
+  if (event.target == modalContainer) {
+    modalContainer.style.display = "none";
+  }
+};
+
+function openModal() {
+  return new Promise((resolve, reject) => {
+    modalContainer.style.display = "block";
+
+    modalForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = getFormData(event);
+      modalContainer.style.display = "none";
+      resolve(data);
+    });
+  });
+}
+
+async function addSubTask(event) {
+  const audio = new Audio("./assets/coin-pickup-98269.mp3");
+  audio.play();
+
+  const mainDiv = event.target.parentElement.parentElement;
+
+  const formData = await openModal();
+  modalForm.reset();
+  const div = createDiv(formData);
+  div.classList.add("subtask-container");
+
+  mainDiv.appendChild(div);
 }
