@@ -40,6 +40,8 @@ form.addEventListener("submit", (event) => {
 
   mainDiv.appendChild(div);
   todo_ul.appendChild(mainDiv);
+  const audio = new Audio("./assets/coin-pickup-98269.mp3");
+  audio.play();
   event.target.reset();
 });
 
