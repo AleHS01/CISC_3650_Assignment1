@@ -164,7 +164,12 @@ function deleteTask(event) {
   const audio = new Audio("./assets/crumple-03-40747.mp3");
   audio.play();
   const task = event.target.parentElement;
-  task.remove();
+  if (!task.classList.contains("subtask-container")) {
+    const div = task.parentElement;
+    div.remove();
+  } else {
+    task.remove();
+  }
 }
 
 function addSubTaskBtn(event) {
