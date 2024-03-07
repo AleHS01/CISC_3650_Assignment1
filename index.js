@@ -2,8 +2,26 @@ const form = document.getElementById("form");
 let todo_ul = document.getElementById("todo-ul");
 let completed_ul = document.getElementById("completed-ul");
 const dropdown = document.getElementById("priority");
-
 document.addEventListener("DOMContentLoaded", () => {});
+
+const today = new Date();
+const year = today.getFullYear();
+let month = today.getMonth() + 1;
+let day = today.getDate();
+
+if (month < 10) {
+  month = "0" + month;
+}
+if (day < 10) {
+  day = "0" + day;
+}
+
+const minDate = `${year}-${month}-${day}`;
+
+const inputs = document.querySelectorAll("#date-input");
+inputs.forEach((input) => {
+  input.setAttribute("min", minDate);
+});
 
 dropdown.addEventListener("change", (event) => {
   dropdown.className =
