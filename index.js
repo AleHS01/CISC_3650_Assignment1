@@ -2,8 +2,6 @@ const form = document.getElementById("form");
 let todo_ul = document.getElementById("todo-ul");
 let completed_ul = document.getElementById("completed-ul");
 const dropdown = document.getElementById("priority");
-let savedTodo = [];
-let savedCompleted = [];
 
 document.addEventListener("DOMContentLoaded", () => {});
 
@@ -18,8 +16,10 @@ form.addEventListener("submit", (event) => {
   const data = getFormData(event);
 
   const mainDiv = document.createElement("div");
+  mainDiv.classList.add("main-li-conainter");
 
   const div = createDiv(data);
+
   mainDiv.appendChild(div);
   todo_ul.appendChild(mainDiv);
   event.target.reset();
@@ -43,14 +43,10 @@ function createDiv(data) {
   const div = document.createElement("div");
   div.classList.add(`li-container`, data.priority ? data.priority : "neutral");
 
-  div.addEventListener("mouseenter", (event) => {
-    addSubTaskBtn(event);
-    addDeleteBtn(event);
-  });
-  div.addEventListener("mouseleave", (event) => {
-    removeSubTaskBtn(event);
-    removeDeleteBtn(event);
-  });
+  div.addEventListener("mouseenter", addSubTaskBtn);
+  div.addEventListener("mouseenter", addDeleteBtn);
+  div.addEventListener("mouseleave", removeSubTaskBtn);
+  div.addEventListener("mouseleave", removeDeleteBtn);
 
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
@@ -77,6 +73,7 @@ function checkItem(event) {
   const parentDiv = event.target.parentElement;
   const li = parentDiv.children[1];
   const dateP = parentDiv.children[2];
+  const mainParent = parentDiv.parentElement;
 
   if (event.target.checked) {
     const audio = new Audio("./assets/tada-fanfare-a-6313.mp3");
@@ -85,12 +82,47 @@ function checkItem(event) {
     dateP.style.textDecoration = "line-through";
     parentDiv.style.color = "#c8c8c8";
     parentDiv.classList.add("completed");
-    completed_ul.append(parentDiv);
+    completed_ul.append(mainParent);
+
+    const subtasks = mainParent.querySelectorAll(".subtask-container");
+    subtasks.forEach((subtask) => {
+      subtask.children[0].checked = true;
+      subtask.classList.add("completed");
+    });
   } else {
     const audio = new Audio("./assets/trumpet-e4-14829.mp3");
     audio.play();
     parentDiv.style.color = "";
-    todo_ul.append(parentDiv);
+    todo_ul.append(mainParent);
+    li.style.textDecoration = "none";
+    parentDiv.classList.remove("completed");
+    dateP.style.textDecoration = "none";
+
+    const subtasks = mainParent.querySelectorAll(".subtask-container");
+    subtasks.forEach((subtask) => {
+      subtask.children[0].checked = false;
+      subtask.classList.remove("completed");
+    });
+  }
+}
+function checkSubtaskItem(event) {
+  const parentDiv = event.target.parentElement;
+  const li = parentDiv.children[1];
+  const dateP = parentDiv.children[2];
+
+  if (event.target.checked) {
+    const audio = new Audio("./assets/tada-fanfare-a-6313.mp3");
+    audio.play();
+    li.style.textDecoration = "line-through";
+    dateP.style.textDecoration = "line-through";
+    parentDiv.style.color = "#c8c8c8";
+    parentDiv.classList.add("completed");
+    // completed_ul.append(parentDiv);
+  } else {
+    const audio = new Audio("./assets/trumpet-e4-14829.mp3");
+    audio.play();
+    parentDiv.style.color = "";
+    // todo_ul.append(parentDiv);
     li.style.textDecoration = "none";
     parentDiv.classList.remove("completed");
     dateP.style.textDecoration = "none";
@@ -172,6 +204,12 @@ async function addSubTask(event) {
   const formData = await openModal();
   modalForm.reset();
   const div = createDiv(formData);
+
+  div.removeEventListener("mouseenter", addSubTaskBtn);
+  div.removeEventListener("mouseleave", removeSubTaskBtn);
+  div.children[0].removeEventListener("change", checkItem);
+  div.children[0].addEventListener("change", checkSubtaskItem);
+
   div.classList.add("subtask-container");
 
   mainDiv.appendChild(div);
