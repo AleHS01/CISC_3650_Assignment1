@@ -40,6 +40,116 @@ http://localhost:5500
 ```
 ---
 
+## Core Functionality
+<details>
+<summary>Task Completion</summary>
+  
+```javascript
+function checkItem(event) {
+  const parentDiv = event.target.parentElement;
+  const li = parentDiv.children[1];
+  const dateP = parentDiv.children[2];
+  const mainParent = parentDiv.parentElement;
+
+  if (event.target.checked) {
+    const audio = new Audio("./assets/tada-fanfare-a-6313.mp3");
+    audio.play();
+    li.style.textDecoration = "line-through";
+    dateP.style.textDecoration = "line-through";
+    parentDiv.style.color = "#c8c8c8";
+    parentDiv.classList.add("completed");
+    completed_ul.append(mainParent); // Moving between List
+
+    const subtasks = mainParent.querySelectorAll(".subtask-container"); // Moving subtask
+    subtasks.forEach((subtask) => {
+      subtask.children[0].checked = true;
+      subtask.classList.add("completed");
+    });
+  } else {
+    const audio = new Audio("./assets/trumpet-e4-14829.mp3");
+    audio.play();
+    parentDiv.style.color = "";
+    todo_ul.append(mainParent); // Moving between List
+    li.style.textDecoration = "none";
+    parentDiv.classList.remove("completed");
+    dateP.style.textDecoration = "none";
+
+    const subtasks = mainParent.querySelectorAll(".subtask-container"); // Moving subtask
+    subtasks.forEach((subtask) => {
+      subtask.children[0].checked = false;
+      subtask.classList.remove("completed");
+    });
+  }
+}
+```
+</details>
+<details>
+<summary>Task Deletion</summary>
+  
+```javascript
+function deleteTask(event) {
+  const audio = new Audio("./assets/crumple-03-40747.mp3");
+  audio.play();
+  const task = event.target.parentElement;
+  if (!task.classList.contains("subtask-container")) {
+    const div = task.parentElement;
+    div.remove();
+  } else {
+    task.remove();
+  }
+}
+```
+</details>
+<details>
+<summary>Adding Subtask</summary>
+  
+```javascript
+function addSubTaskBtn(event) {
+  const i = document.createElement("i");
+  i.sty;
+  i.classList.add("bi", "bi-list-task", "subtask-btn");
+  i.addEventListener("click", addSubTask);
+  event.target.appendChild(i);
+}
+```
+</details>
+<details>
+<summary>Removing Subtask</summary>
+  
+```javascript
+function removeSubTaskBtn(event) {
+  event.target.removeChild(event.target.querySelector("i.subtask-btn"));
+}
+```
+</details>
+<details>
+<summary>Modal Functionality</summary>
+  
+```javascript
+const modalContainer = document.getElementById("modal-container");
+const modalForm = document.getElementById("modal-form");
+
+window.onclick = function (event) {
+  if (event.target == modalContainer) {
+    modalContainer.style.display = "none";
+  }
+};
+
+function openModal() {
+  return new Promise((resolve, reject) => {
+    modalContainer.style.display = "block";
+
+    modalForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = getFormData(event);
+      modalContainer.style.display = "none";
+      resolve(data);
+    });
+  });
+}
+```
+</details>
+
 ## Deployment
 
 This project is deployed using GitHub Pages.  
